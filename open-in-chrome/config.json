@@ -1,0 +1,12 @@
+{
+    "always_run_in_app": false,
+    "icon": {
+        "color": "blue",
+        "glyph": "globe-asia"
+    },
+    "name": "Open in Chrome",
+    "share_sheet_inputs": [
+        "url",
+        "plain-text"
+    ]
+}

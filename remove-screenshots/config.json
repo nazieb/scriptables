@@ -1,0 +1,9 @@
+{
+    "always_run_in_app": false,
+    "icon": {
+        "color": "red",
+        "glyph": "trash-alt"
+    },
+    "name": "Remove Screenshots",
+    "share_sheet_inputs": []
+}

@@ -1,0 +1,9 @@
+{
+    "always_run_in_app": false,
+    "icon": {
+        "color": "deep-green",
+        "glyph": "comment"
+    },
+    "name": "Send WhatsApp",
+    "share_sheet_inputs": []
+}
