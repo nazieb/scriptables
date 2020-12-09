@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - ci
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Clone main branch'
+        uses: actions/checkout@v2
+        with:
+          path: main
+      
+      - name: 'Build Scriptable files'
+        run: './.github/workflows/build.js'
+        working-directory: main
+
+      - name: 'Clone gh-pages branch'
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: 'Prepare for deploy'
+        run: mv main/.deploy/* gh-pages/
+      
+      - name: 'Commit changes'
+        working-directory: gh-pages
+        run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git add -A
+          git commit -m "ref: $GITHUB_SHA"
+      
+      - name: 'Push changes'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          directory: gh-pages
+          branch: gh-pages
