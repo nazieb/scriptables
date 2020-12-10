@@ -28,7 +28,7 @@ jobs:
         run: |
           npm i -g showdown
           showdown makehtml -i README.md -o ./.github/workflows/content.html
-          sed -e '/\<body\>/r./.github/workflows/content.html' ./.github/workflows/template.html > .deploy/index.html
+          sed -e '/\<div\>/r./.github/workflows/content.html' ./.github/workflows/template.html > .deploy/index.html
 
       - name: 'Clone gh-pages branch'
         uses: actions/checkout@v2
@@ -37,16 +37,20 @@ jobs:
           path: gh-pages
 
       - name: 'Prepare for deploy'
-        run: mv main/.deploy/* gh-pages/
-
+        run: |
+          rm -rf gh-pages/*
+          mv main/.deploy/* gh-pages/
+      
       - id: check
         name: 'Check if there any changes'
         continue-on-error: true
         working-directory: gh-pages
-        run: git diff-index --quiet HEAD --
-      
+        run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git update-index --refresh
+
       - name: 'Commit changes'
-        if: ${{ steps.check.outcome == 'success' }}
+        if: ${{ steps.check.outcome == 'failure' }}
         working-directory: gh-pages
         run: |
           git config --global user.name "$GITHUB_ACTOR"
@@ -54,7 +58,7 @@ jobs:
           git commit -m "ref: $GITHUB_SHA"
       
       - name: 'Push changes'
-        if: ${{ steps.check.outcome == 'success' }}
+        if: ${{ steps.check.outcome == 'failure' }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
