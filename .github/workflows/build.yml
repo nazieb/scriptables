@@ -9,11 +9,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: 'Setup Node.js'
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+
       - name: 'Clone main branch'
         uses: actions/checkout@v2
         with:
           path: main
-      
+
       - name: 'Build Scriptable files'
         working-directory: main
         run: ./.github/workflows/build.js
