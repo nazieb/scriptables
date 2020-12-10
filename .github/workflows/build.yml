@@ -15,8 +15,15 @@ jobs:
           path: main
       
       - name: 'Build Scriptable files'
-        run: './.github/workflows/build.js'
         working-directory: main
+        run: ./.github/workflows/build.js
+
+      - name: 'Compile README to html'
+        working-directory: main
+        run: |
+          npm i -g showdown
+          showdown makehtml -i README.md -o ./.github/workflows/content.html
+          sed -e '/\<body\>/r./.github/workflows/content.html' ./.github/workflows/template.html > .deploy/index.html
 
       - name: 'Clone gh-pages branch'
         uses: actions/checkout@v2
