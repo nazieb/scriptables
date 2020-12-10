@@ -1,0 +1,10 @@
+{
+  "always_run_in_app": false,
+  "icon": {
+    "color": "deep-green",
+    "glyph": "comment"
+  },
+  "name": "Send WhatsApp",
+  "share_sheet_inputs": [],
+  "script": "const alert = new Alert();\nalert.title = \"Enter phone number\";\nalert.addTextField();\nalert.addAction(\"OK\");\n\nawait alert.present();\n\nlet phone = alert.textFieldValue(0);\nphone = phone.replace(\"+\", \"\").replaceAll(\" \", \"\");\n\nif (phone[0] === \"0\") {\n    // 62 is code for Indonesia\n    // replace this with your country code if needed\n    phone = phone.replace(\"0\", \"62\");\n}\n\nif (phone === \"\") {\n    Script.complete();\n    return;\n}\n\nconst deeplink = \"whatsapp:\\/\\/send?phone=\" + phone;\nSafari.open(deeplink, false);"
+}

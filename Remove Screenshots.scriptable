@@ -1,0 +1,10 @@
+{
+  "always_run_in_app": false,
+  "icon": {
+    "color": "red",
+    "glyph": "trash-alt"
+  },
+  "name": "Remove Screenshots",
+  "share_sheet_inputs": [],
+  "script": "const num = 20;\n\nwhile (true) {\n    const imgs = await Photos.latestScreenshots(num);\n    if (imgs.length === 0) {\n        break;\n    }\n    \n    Photos.removeLatestScreenshots(num);\n\n    if (imgs.length < num) {\n        break;\n    }\n}"
+}

@@ -1,0 +1,13 @@
+{
+  "always_run_in_app": false,
+  "icon": {
+    "color": "blue",
+    "glyph": "globe-asia"
+  },
+  "name": "Open in Chrome",
+  "share_sheet_inputs": [
+    "url",
+    "plain-text"
+  ],
+  "script": "let url;\nif (args.urls.length > 0 || args.plainTexts.length > 0) {\n    url = args.urls[0] || args.plainTexts[0];\n}\n\nif (!url || (url.indexOf(\"https:\\/\\/\") !== 0 && url.indexOf(\"http:\\/\\/\") !== 0)) {\n    Script.complete();\n    return;\n}\n\nconst deeplink = url.replace(\"http\", \"googlechrome\");\nSafari.open(deeplink, false);"
+}
