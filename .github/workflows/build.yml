@@ -42,6 +42,7 @@ jobs:
       - id: check
         name: 'Check if there any changes'
         continue-on-error: true
+        working-directory: gh-pages
         run: git diff-index --quiet HEAD --
       
       - name: 'Commit changes'
