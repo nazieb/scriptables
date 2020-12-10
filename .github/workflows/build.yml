@@ -26,8 +26,14 @@ jobs:
 
       - name: 'Prepare for deploy'
         run: mv main/.deploy/* gh-pages/
+
+      - id: check
+        name: 'Check if there any changes'
+        continue-on-error: true
+        run: git diff-index --quiet HEAD --
       
       - name: 'Commit changes'
+        if: ${{ steps.check.outcome == 'success' }}
         working-directory: gh-pages
         run: |
           git config --global user.name "$GITHUB_ACTOR"
@@ -35,6 +41,7 @@ jobs:
           git commit -m "ref: $GITHUB_SHA"
       
       - name: 'Push changes'
+        if: ${{ steps.check.outcome == 'success' }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
